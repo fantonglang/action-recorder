@@ -1,0 +1,51 @@
+{
+  "name": "action recorder",
+  "background": {
+    "service_worker": "bg.js",
+    "type": "module"
+  },
+  "commands": {
+    "cpy-feature": {
+      "suggested_key": {
+        "default": "Ctrl+C",
+        "mac": "Command+C"
+      },
+      "description": "copy content"
+    },
+    "pst-feature": {
+      "suggested_key": {
+        "default": "Ctrl+V",
+        "mac": "Command+V"
+      },
+      "description": "paste content"
+    },
+    "start_rec_scroll": {
+      "suggested_key": {
+        "default": "Ctrl+U",
+        "mac": "Command+U"
+      },
+      "description": "start record screen scroll"
+    },
+    "finish_rec_scroll": {
+      "suggested_key": {
+        "default": "Ctrl+I",
+        "mac": "Command+I"
+      },
+      "description": "finish record screen scroll"
+    },
+    "new_session": {
+      "suggested_key": {
+        "default": "Ctrl+J",
+        "mac": "Command+J"
+      },
+      "description": "new session"
+    }
+  },
+  "content_scripts": [{
+    "matches": ["https://www.apple.com/*"],
+    "js": ["utils.js", "content.js"]
+  }],
+  "manifest_version": 3,
+  "permissions": ["clipboardRead", "nativeMessaging", "storage", "tabs", "unlimitedStorage", "webNavigation", "webRequest"],
+  "version": "0.1"
+}
