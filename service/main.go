@@ -14,7 +14,7 @@ type ReportData struct {
 	Type    string
 	Data    string
 	Time    int64
-	Session int64
+	Session string
 }
 
 func report(w http.ResponseWriter, r *http.Request) {

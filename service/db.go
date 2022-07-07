@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/blockloop/scan"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 )
 
