@@ -24,7 +24,9 @@ async function filter_load(request, response) {
   const names = Object.getOwnPropertyNames(c.__proto__)
   const name = names.find(p => p.toLowerCase() == type.toLowerCase())
   if (!name) {
-    response({type: "ERROR", message: err.toString()})
+    console.log('type', type)
+    console.log('names', names)
+    response({type: "ERROR", message: "METHOD_NOT_FOUND"})
     return
   }
   const result = await c[name].apply(c, [data])
