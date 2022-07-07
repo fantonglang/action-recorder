@@ -33,12 +33,26 @@ async function sendRequest(type, data) {
 function getElementByXpath(path) {
   return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 }
+function getElementsByXpath(path) {
+  const it = document.evaluate(path, document, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
+  const items = []
+  while(true) {
+    const item = it.iterateNext()
+    if (!item) {
+      break
+    }
+    items.push(item)
+  }
+  return items
+}
 
 let mouseState = '';
 let lastActionTime = Date.now();
 let infos = [];
 let ready = false;
 let hovering = false;
+// console.log('ready', ready);
+// const deferList = [];
 
 /**
  * load
@@ -104,25 +118,73 @@ let hovering = false;
       if (!regex.test(url)) {
         continue
       }
-      actualInfos.push({el: getElementByXpath(xpath), type, id})
+      console.log(urlRegex)
+      actualInfos.push({xpath, type, id})
     }
-    for (const {el, type, id} of actualInfos) {
-      if (type == 'button') {
-        el.addEventListener('mouseenter', function(e) {
-          hovering = true
-          renderElementState()
-        })
-        el.addEventListener('mouseleave', function(e) {
-          hovering = false
-          renderElementState()
-        })
-        el.addEventListener('click', async function(e) {
-          const resp = await sendRequest(types.CLICK, {id, time: Date.now()})
-          console.log(resp)
-        })
-      }
+    for (const {xpath, type, id} of actualInfos) {
+      hookXpath(xpath, type, id)
     }
-    
+    if (deferList.length > 0) {
+      const intv = setInterval(() => {
+        const xpathOkList = []
+        for (const {xpath, type, id} of deferList) {
+          const els = getElementsByXpath(xpath)
+          if (els.length == 0 || els[0].offsetHeight == 0) {
+            continue
+          }
+          for (const el of els) {
+            hookElement(el, type, id)  
+          }
+          xpathOkList.push(xpath)
+        }
+        for (const xpath of xpathOkList) {
+          const idx = deferList.findIndex(p => p.xpath == xpath)
+          deferList.splice(idx, 1)
+        }
+        if (deferList.length == 0) {
+          clearInterval(intv)
+        }
+      }, 500);
+    }
+  }
+
+  const deferList = []
+  function hookElement(el, type, id) {
+    // console.log(el)
+    // console.log(deferList)
+    if (type == 'button') {
+      el.addEventListener('mouseenter', function(e) {
+        hovering = true
+        renderElementState()
+      })
+      el.addEventListener('mouseleave', function(e) {
+        hovering = false
+        renderElementState()
+      })
+      el.addEventListener('click', async function(e) {
+        const resp = await sendRequest(types.CLICK, {id, time: Date.now()})
+        console.log(resp)
+      })
+    } else if (type == 'input2') {
+      el.addEventListener('mouseenter', function(e) {
+        hovering = true
+        renderElementState()
+      })
+      el.addEventListener('mouseleave', function(e) {
+        hovering = false
+        renderElementState()
+      })
+    }
+  }
+  function hookXpath(xpath, type, id) {
+    const els = getElementsByXpath(xpath)
+    if (els.length == 0 || els[0].offsetHeight == 0) {
+      deferList.push({xpath, type, id})
+      return
+    }
+    for (const el of els) {
+      hookElement(el, type, id)  
+    }
   }
 })()
 

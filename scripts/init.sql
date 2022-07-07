@@ -62,4 +62,4 @@ values ('https://www.apple.com/jp/shop/buy-ipad/ipad-10-2/[^-]+-[^-]+-[^-]+', '/
 ('https://secure4.store.apple.com/jp/shop/checkout\\?_s=Billing-init', '//input[@data-autom="form-field-street2"]', 'input'),
 ('https://secure4.store.apple.com/jp/shop/checkout\\?_s=Billing-init', '//button[@data-autom="continue-button-label" and not(@disabled)]', 'button'),
 ('https://secure4.store.apple.com/jp/shop/checkout\\?_s=Review', '//button[@id="rs-checkout-continue-button-bottom" and not(@disabled)]', 'button'),
-('https://secure4.store.apple.com/jp/shop/checkout\\?_s=Fulfillment', '//h2[@class="rs-fulfillment-sectiontitle"]', 'button');
+('https://secure4.store.apple.com/jp/shop/checkout\\?_s=Fulfillment$', '//h2[@class="rs-fulfillment-sectiontitle"]', 'button');
