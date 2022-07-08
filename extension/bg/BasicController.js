@@ -24,7 +24,7 @@ export default class BasicController extends BaseController {
     })
     return "OK"
   }
-  async info(data) {
+  async info() {
     return await _getInfo()
   }
   async click({id, time}) {
@@ -45,6 +45,58 @@ export default class BasicController extends BaseController {
   }
   async scroll() {
     return "OK_SCROLL"
+  }
+  async INPUT2_CTRL_V({time, id}) {
+    await fetch(REPORT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: JSON.stringify({id}),
+        time,
+        type: 'INPUT2_CTRL_V',
+        session: await this.getSession(),
+        key_el_id: id
+      })
+    })
+    return "OK_INPUT2_CTRL_V"
+  }
+  async INPUT2_CTRL_A({time, id}) {
+    await fetch(REPORT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: JSON.stringify({id}),
+        time,
+        type: 'INPUT2_CTRL_A',
+        session: await this.getSession(),
+        key_el_id: id
+      })
+    })
+    return "OK_INPUT2_CTRL_A"
+  }
+  async INPUT2_CTRL_BACK({time, id}) {
+    await fetch(REPORT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: JSON.stringify({id}),
+        time,
+        type: 'INPUT2_CTRL_BACK',
+        session: await this.getSession(),
+        key_el_id: id
+      })
+    })
+    return "OK_INPUT2_CTRL_BACK"
+  }
+  async INPUT2_CTRL_ENTER({time, id}) {
+    await fetch(REPORT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: JSON.stringify({id}),
+        time,
+        type: 'INPUT2_CTRL_ENTER',
+        session: await this.getSession(),
+        key_el_id: id
+      })
+    })
+    return "OK_INPUT2_CTRL_ENTER"
   }
 }
 

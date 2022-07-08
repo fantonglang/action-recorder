@@ -3,7 +3,11 @@ const types = {
   MOUSE_TRACK: 'MOUSE_TRACK',
   CLICK: 'CLICK',
   PASTE: 'PASTE',
-  SCROLL: 'SCROLL'
+  SCROLL: 'SCROLL',
+  INPUT2_CTRL_A: 'INPUT2_CTRL_A',
+  INPUT2_CTRL_V: 'INPUT2_CTRL_V',
+  INPUT2_CTRL_BACK: 'INPUT2_CTRL_BACK',
+  INPUT2_CTRL_ENTER: 'INPUT2_CTRL_ENTER'
 }
 
 function request(type, data) {
@@ -163,6 +167,7 @@ let hovering = false;
       })
       el.addEventListener('click', async function(e) {
         const resp = await sendRequest(types.CLICK, {id, time: Date.now()})
+        lastActionTime = Date.now()
         console.log(resp)
       })
     } else if (type == 'input2') {
@@ -173,6 +178,30 @@ let hovering = false;
       el.addEventListener('mouseleave', function(e) {
         hovering = false
         renderElementState()
+      })
+      el.addEventListener('keydown', async function(e) {
+        const ctrlKey = e.ctrlKey || e.metaKey
+        if(ctrlKey&&e.keyCode===86) {
+          const resp = await sendRequest(types.INPUT2_CTRL_V, {time: Date.now(), id})
+          lastActionTime = Date.now()
+          console.log(resp)
+          // console.log('Ctrl+V');
+        } else if(ctrlKey&&e.keyCode===65) {
+          const resp = await sendRequest(types.INPUT2_CTRL_A, {time: Date.now(), id})
+          lastActionTime = Date.now()
+          console.log(resp)
+          // console.log('Ctrl+A');
+        } else if (!ctrlKey&&e.keyCode===8) {
+          const resp = await sendRequest(types.INPUT2_CTRL_BACK, {time: Date.now(), id})
+          lastActionTime = Date.now()
+          console.log(resp)
+          // console.log('backspace')
+        } else if (!ctrlKey&&e.keyCode===13) {
+          const resp = await sendRequest(types.INPUT2_CTRL_ENTER, {time: Date.now(), id})
+          lastActionTime = Date.now()
+          console.log(resp)
+          // console.log('enter')
+        }
       })
     }
   }
