@@ -56,7 +56,7 @@ let infos = [];
 let ready = false;
 let hovering = false;
 // console.log('ready', ready);
-// const deferList = [];
+const deferList = [];
 
 /**
  * load
@@ -117,6 +117,7 @@ let hovering = false;
     }
     const url = window.location.toString()
     const actualInfos = []
+    // console.log(infos)
     for (const {pageUrl: urlRegex, xpath, type, id} of infos) {
       const regex = new RegExp(urlRegex)
       if (!regex.test(url)) {
@@ -125,6 +126,7 @@ let hovering = false;
       console.log(urlRegex)
       actualInfos.push({xpath, type, id})
     }
+    // console.log(actualInfos)
     for (const {xpath, type, id} of actualInfos) {
       hookXpath(xpath, type, id)
     }
@@ -152,7 +154,7 @@ let hovering = false;
     }
   }
 
-  const deferList = []
+  // const deferList = []
   function hookElement(el, type, id) {
     // console.log(el)
     // console.log(deferList)

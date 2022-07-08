@@ -40,10 +40,30 @@ export default class BasicController extends BaseController {
     })
     return "OK_CLICK"
   }
-  async mouse_track() {
+  async mouse_track({time, ...others}) {
+    console.log('mouse_track', others)
+    await fetch(REPORT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: JSON.stringify(others),
+        time,
+        type: 'MOUSE_TRACK',
+        session: await this.getSession(),
+      })
+    })
     return "OK_MOUSE_TRACK"
   }
-  async scroll() {
+  async scroll({time, ...others}) {
+    console.log('scroll', others)
+    await fetch(REPORT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        data: JSON.stringify(others),
+        time,
+        type: 'SCROLL',
+        session: await this.getSession(),
+      })
+    })
     return "OK_SCROLL"
   }
   async INPUT2_CTRL_V({time, id}) {
