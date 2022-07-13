@@ -22,7 +22,7 @@
   },
   "content_scripts": [{
     "matches": ["https://*.apple.com/*"],
-    "js": ["lodash.js", "content.js"]
+    "js": ["lodash.js", "utils.js", "mouse.js", "content.js"]
   }],
   "manifest_version": 3,
   "permissions": ["clipboardRead", "nativeMessaging", "storage", "tabs", "unlimitedStorage", "webNavigation", "webRequest"],

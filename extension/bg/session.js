@@ -30,6 +30,18 @@ export async function newSession() {
   await _setSession(s)
 }
 
+const FINISH_SESSION_URL = 'http://localhost:5001/finish_session'
+
 export async function finishSession() {
+  const s = await getSession()
+  if (!s) {
+    return
+  }
   await _setSession(null)
+  await fetch(FINISH_SESSION_URL, {
+    method: 'POST',
+    body: JSON.stringify({
+      session_id: s,
+    })
+  })
 }
